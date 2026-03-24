@@ -263,7 +263,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
         
-        @media (max-width: 600px) {
+        @media (max-width: 300px) {
             .container {
                 margin: 1rem;
                 padding: 1rem;
@@ -377,6 +377,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             
             <button type="submit">Register Now</button>
+            <button type="button" style="margin-top: 0." onclick="window.location.href='../index.php'">Back</button>
         </form>
         
         <div class="login-link">

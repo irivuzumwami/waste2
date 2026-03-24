@@ -172,7 +172,7 @@ if (!file_exists($bgImagePath)) {
             color: var(--primary);
         }
         
-        /* Hero Section with a.jpg background - Fixed */
+        /* Hero Section with a.jpg background */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -181,10 +181,10 @@ if (!file_exists($bgImagePath)) {
             text-align: center;
             padding: 0 1rem;
             position: relative;
-            background-color: var(--footer-bg: #0b1120;);
+            background-color: var(--bg-dark);
         }
         
-        /* Background with image - This ensures image appears */
+        /* Background with image */
         .hero::before {
             content: '';
             position: absolute;
@@ -192,7 +192,7 @@ if (!file_exists($bgImagePath)) {
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: url("ede.jpg")" : "linear-gradient(135deg, #1e3a8a, #0f172a)"; ?>;
+            background-image: <?php echo $bgImage ? "url('" . $bgImage . "')" : "linear-gradient(135deg, #1e3a8a, #0f172a)"; ?>;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -777,24 +777,20 @@ if (!file_exists($bgImagePath)) {
             const icon = toggleBtn.querySelector('i');
             
             if (passwordInput.type === 'password') {
-                // Show password
                 passwordInput.type = 'text';
                 icon.classList.remove('fa-eye');
                 icon.classList.add('fa-eye-slash');
                 toggleBtn.classList.add('visible');
             } else {
-                // Hide password
                 passwordInput.type = 'password';
                 icon.classList.remove('fa-eye-slash');
                 icon.classList.add('fa-eye');
                 toggleBtn.classList.remove('visible');
             }
             
-            // Keep focus on password field
             passwordInput.focus();
         }
         
-        // Open modal function
         function openLoginModal() {
             const modal = document.getElementById('loginModal');
             modal.classList.add('show');
@@ -803,12 +799,10 @@ if (!file_exists($bgImagePath)) {
             }, 100);
         }
         
-        // Close modal function
         function closeLoginModal() {
             const modal = document.getElementById('loginModal');
             modal.classList.remove('show');
             
-            // Reset password field to hidden when modal closes
             const passwordInput = document.getElementById('password');
             const toggleBtn = document.getElementById('togglePasswordBtn');
             if (passwordInput && passwordInput.type === 'text') {
@@ -819,7 +813,6 @@ if (!file_exists($bgImagePath)) {
                 toggleBtn.classList.remove('visible');
             }
             
-            // Remove error parameters from URL
             if (window.history.pushState) {
                 const url = new URL(window.location.href);
                 url.searchParams.delete('error');
@@ -830,7 +823,6 @@ if (!file_exists($bgImagePath)) {
             }
         }
         
-        // Close modal when clicking outside
         window.onclick = function(event) {
             const modal = document.getElementById('loginModal');
             if (event.target === modal) {
@@ -838,7 +830,6 @@ if (!file_exists($bgImagePath)) {
             }
         }
         
-        // Close modal with ESC key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 const modal = document.getElementById('loginModal');
@@ -848,14 +839,12 @@ if (!file_exists($bgImagePath)) {
             }
         });
         
-        // Auto-show modal if there's an error
         <?php if($showLoginModal): ?>
         document.addEventListener('DOMContentLoaded', function() {
             openLoginModal();
         });
         <?php endif; ?>
         
-        // Form submission with loading state
         const loginForm = document.getElementById('loginForm');
         if (loginForm) {
             loginForm.addEventListener('submit', function(e) {
@@ -869,14 +858,12 @@ if (!file_exists($bgImagePath)) {
                 }
                 
                 const submitBtn = document.getElementById('loginBtn');
-                const originalText = submitBtn.innerHTML;
                 submitBtn.innerHTML = '⏳ Logging in...';
                 submitBtn.disabled = true;
                 submitBtn.style.opacity = '0.7';
             });
         }
         
-        // Clear error when user starts typing
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
         
@@ -891,7 +878,6 @@ if (!file_exists($bgImagePath)) {
         if (emailInput) emailInput.addEventListener('input', clearError);
         if (passwordInput) passwordInput.addEventListener('input', clearError);
         
-        // Optional: Add keyboard shortcut (Ctrl + Shift + P) to toggle password
         document.addEventListener('keydown', function(e) {
             if ((e.ctrlKey && e.shiftKey && e.key === 'P') || 
                 (e.ctrlKey && e.key === 'p' && !e.shiftKey)) {
@@ -903,7 +889,6 @@ if (!file_exists($bgImagePath)) {
             }
         });
         
-        // Optional: Auto-hide password after 30 seconds of inactivity when visible
         let passwordTimer;
         if (passwordInput) {
             passwordInput.addEventListener('input', function() {

@@ -25,13 +25,20 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
 
 // Check if we need to show login modal
 $showLoginModal = isset($_GET['error']) || isset($_GET['show_login']) || isset($_GET['logout']);
+
+// Check if a.jpg exists, if not use a default gradient
+$bgImage = 'a.jpg';
+$bgImagePath = __DIR__ . '/' . $bgImage;
+if (!file_exists($bgImagePath)) {
+    $bgImage = ''; // Will use gradient fallback
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Waste Management System | Clean City Initiative</title>
+    <title>EcoWaste | Smart Waste Management System</title>
     <!-- Font Awesome CDN for eye icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -60,7 +67,6 @@ $showLoginModal = isset($_GET['error']) || isset($_GET['show_login']) || isset($
         
         /* Navigation */
         .navbar {
-            
             background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(10px);
             position: fixed;
@@ -72,17 +78,69 @@ $showLoginModal = isset($_GET['error']) || isset($_GET['show_login']) || isset($
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            
         }
         
+        /* Enhanced Logo with Icon */
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             font-size: 1.8rem;
             font-weight: bold;
+        }
+        
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), var(--teal-accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: gentlePulse 2s infinite;
+        }
+        
+        .logo-icon i {
+            font-size: 24px;
             color: var(--secondary);
         }
         
-        .logo span {
-            color: var(--teal-accent);
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        
+        .logo-main {
+            font-size: 24px;
+            font-weight: 800;
+        }
+        
+        .logo-main .eco {
+            background: linear-gradient(135deg, var(--primary), var(--teal-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .logo-main .waste {
+            color: var(--secondary);
+        }
+        
+        .logo-tagline {
+            font-size: 8px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        @keyframes gentlePulse {
+            0%, 100% {
+                box-shadow: 0 2px 8px rgba(0,196,154,0.2);
+            }
+            50% {
+                box-shadow: 0 2px 12px rgba(0,196,154,0.4);
+            }
         }
         
         .nav-links {
@@ -114,30 +172,74 @@ $showLoginModal = isset($_GET['error']) || isset($_GET['show_login']) || isset($
             color: var(--primary);
         }
         
-        /* Hero Section */
+        /* Hero Section with a.jpg background - Fixed */
         .hero {
             min-height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('welcome.jpg') center/cover no-repeat;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             padding: 0 1rem;
+            position: relative;
+            background-color: var(--footer-bg: #0b1120;);
+        }
+        
+        /* Background with image - This ensures image appears */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("ede.jpg")" : "linear-gradient(135deg, #1e3a8a, #0f172a)"; ?>;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            filter: brightness(0.5);
+            z-index: 0;
+        }
+        
+        /* Gradient overlay for better text readability */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.5));
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
         }
         
         .hero-content h1 {
-            font-size: 3.5rem;
+            font-size: 3.8rem;
             margin-bottom: 1rem;
             animation: fadeInUp 1s ease;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero-content h1 .highlight {
+            color: var(--secondary);
         }
         
         .hero-content p {
             font-size: 1.2rem;
             margin-bottom: 2rem;
-            color: var(--text-muted);
+            color: rgba(255,255,255,0.9);
             animation: fadeInUp 1s ease 0.2s forwards;
             opacity: 0;
             animation-fill-mode: forwards;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .btn-group {
@@ -186,6 +288,8 @@ $showLoginModal = isset($_GET['error']) || isset($_GET['show_login']) || isset($
         .features {
             padding: 5rem 5%;
             background: var(--bg-dark);
+            position: relative;
+            z-index: 1;
         }
         
         .section-title {
@@ -231,6 +335,8 @@ $showLoginModal = isset($_GET['error']) || isset($_GET['show_login']) || isset($
             background: var(--footer-bg);
             padding: 3rem 5% 1rem;
             border-top: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            z-index: 1;
         }
         
         .footer-content {
@@ -282,7 +388,7 @@ $showLoginModal = isset($_GET['error']) || isset($_GET['show_login']) || isset($
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.9);
             z-index: 2000;
             justify-content: center;
             align-items: center;
@@ -456,6 +562,9 @@ $showLoginModal = isset($_GET['error']) || isset($_GET['show_login']) || isset($
                 flex-direction: column;
                 gap: 1rem;
             }
+            .hero::before {
+                background-attachment: scroll;
+            }
             .hero-content h1 {
                 font-size: 2rem;
             }
@@ -472,12 +581,35 @@ $showLoginModal = isset($_GET['error']) || isset($_GET['show_login']) || isset($
                 padding: 6px;
                 font-size: 1rem;
             }
+            .logo-icon {
+                width: 35px;
+                height: 35px;
+            }
+            .logo-icon i {
+                font-size: 18px;
+            }
+            .logo-main {
+                font-size: 20px;
+            }
+            .logo-tagline {
+                font-size: 7px;
+            }
         }
     </style>
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">Eco<span>Waste</span></div>
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-recycle"></i>
+            </div>
+            <div class="logo-text">
+                <div class="logo-main">
+                    <span class="eco">Eco</span><span class="waste">Waste</span>
+                </div>
+                <div class="logo-tagline">Clean City Initiative</div>
+            </div>
+        </div>
         <div class="nav-links">
             <a href="#home">Home</a>
             <a href="#features">Features</a>
@@ -490,7 +622,7 @@ $showLoginModal = isset($_GET['error']) || isset($_GET['show_login']) || isset($
 
     <section class="hero" id="home">
         <div class="hero-content">
-            <h1>Smart Waste Management <br>For Cleaner Communities</h1>
+            <h1>Smart Waste Management <br><span class="highlight">For Cleaner Communities</span></h1>
             <p>Join us in making our environment cleaner and greener. Schedule pickups, track waste, and contribute to sustainability.</p>
             <div class="btn-group">
                 <a href="customer/register.php" class="btn btn-primary">Register as Customer</a>
